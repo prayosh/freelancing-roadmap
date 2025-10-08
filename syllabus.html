@@ -14,12 +14,12 @@
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* --- DEFAULT BLUE-PURPLE THEME --- */
+        /* --- DEFAULT LIGHT PURPLE THEME --- */
         :root {
-            /* Customizable Colors (Default Blue-Violet Theme) */
-            --primary-accent: #8B5CF6; /* Violet-500/600 - Buttons, Progress, Icons */
+            /* Customizable Colors (New Default Light Purple Theme) */
+            --primary-accent: #A78BFA; /* Violet-400 - Buttons, Progress, Icons (Lighter for contrast) */
             --heading-color: #EDE9FE; /* Light Violet - Main Headings (H1, H2) */
-            --subheading-color: #A78BFA; /* Violet-400 - Subheadings (H3) */
+            --subheading-color: #C4B5FD; /* Violet-300 - Subheadings (H3) */
             --text-color: #D1D5DB;    /* Gray-300 - General Body Text */
             --secondary-bg: #1F2937;  /* Dark Blue Gray (Card Background) */
             
@@ -108,6 +108,799 @@
         #menu-drawer {
             transition: transform 0.3s ease-in-out;
             transform: translateX(-100%);
+        }
+        #menu-drawer.open {
+            transform: translateX(0);
+        }
+
+        /* Floating Action Button (FAB) */
+        #fab-menu {
+            transition: transform 0.2s;
+        }
+        #fab-menu:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Custom checkbox style */
+        .custom-checkbox {
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #3d3d3d;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            background-color: #2c2c2c; 
+        }
+    </style>
+    <!-- Load Lucide Icons -->
+    <script type="module">
+        import { createIcons, Menu, X, CheckCircle, Home, Send, DollarSign, Users, Target, BookOpen, ChevronRight, Zap, Palette, RotateCcw } from 'https://unpkg.com/lucide@latest';
+        window.addEventListener('load', () => {
+            createIcons({ icons: { Menu, X, CheckCircle, Home, Send, DollarSign, Users, Target, BookOpen, ChevronRight, Zap, Palette, RotateCcw } });
+        });
+    </script>
+</head>
+<body id="content-root" class="min-h-screen">
+    <!-- Main Application Container -->
+    <div class="flex flex-col min-h-screen">
+
+        <!-- Header - Fixed Heading Removed as requested -->
+        <header class="bg-[#1a1a1a] shadow-lg sticky top-0 z-30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <!-- Heading previously here is now removed -->
+            </div>
+        </header>
+
+        <!-- Main Content Area & Right Sidebar -->
+        <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-6">
+
+            <!-- Content Area (Left/Main) -->
+            <section id="content-display" class="lg:w-3/4 w-full p-6 sm:p-8 rounded-xl shadow-2xl border border-gray-700">
+                <!-- Content will be injected here -->
+            </section>
+
+            <!-- Right Progress Sidebar (Sticky) -->
+            <aside id="progress-sidebar-container" class="lg:w-1/4 w-full lg:sticky lg:top-24 hidden lg:block h-fit">
+                <div id="progress-sidebar" class="p-5 rounded-xl shadow-xl border border-gray-700 tertiary-bg-color">
+                    <!-- Progress sidebar content will be injected here -->
+                </div>
+            </aside>
+
+        </main>
+
+        <!-- Floating Action Button (FAB) for Menu -->
+        <button id="fab-menu" class="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 w-12 h-12 rounded-full primary-accent-bg text-[#0d0d0d] shadow-2xl flex items-center justify-center z-50 focus:outline-none" onclick="toggleMenu()">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+
+        <!-- Menu Drawer (Left Side Sliding) -->
+        <div id="menu-drawer" class="fixed top-0 left-0 h-full w-80 bg-[#121212] z-40 shadow-2xl overflow-y-auto flex flex-col">
+            
+            <!-- Menu Header and Close Button -->
+            <div class="p-6 pb-4 flex justify-between items-center sticky top-0 bg-[#121212] border-b border-gray-800">
+                <h2 class="text-2xl font-bold text-white">Roadmap Menu</h2>
+                <button onclick="toggleMenu()" class="text-gray-400 hover:text-white transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Scrollable Navigation Links, Progress, and Settings (Moved inside here) -->
+            <div class="flex-grow p-6 overflow-y-auto">
+                <!-- Overall Progress Bar -->
+                <div class="mb-8 p-3 secondary-bg-color rounded-lg border border-gray-700">
+                    <p class="text-sm font-semibold mb-2">Overall Progress</p>
+                    <div class="w-full bg-[#3d3d3d] rounded-full h-2.5">
+                        <div id="overall-progress-bar" class="h-2.5 rounded-full primary-accent-bg transition-all duration-500" style="width: 0%;"></div>
+                    </div>
+                    <p id="overall-progress-text" class="text-xs mt-1 text-gray-400 text-right">0% Complete</p>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav id="menu-nav-links" class="space-y-3 mb-8 border-b border-gray-800 pb-4">
+                    <!-- Links will be injected here -->
+                </nav>
+            
+                <!-- Settings Section (Moved here to scroll with content) -->
+                <div class="p-3">
+                    <h3 class="text-lg font-bold text-white mb-4 flex items-center"><i data-lucide="palette" class="w-5 h-5 mr-2"></i> Settings</h3>
+
+                    <!-- 1. Text Size Control -->
+                    <div class="mb-6 p-3 secondary-bg-color rounded-lg border border-gray-700">
+                        <label for="text-size-slider" class="text-sm font-semibold mb-2 block text-white">Text Size (Font Size)</label>
+                        <input type="range" id="text-size-slider" min="14" max="20" value="16" step="1" oninput="changeFontSize(this.value)" class="w-full">
+                        <div class="flex justify-between text-xs text-gray-400 mt-1">
+                            <span>Small</span>
+                            <span id="current-font-size">16px</span>
+                            <span>Large</span>
+                        </div>
+                    </div>
+
+                    <!-- 2. Theme/Color Control -->
+                    <div class="p-3 secondary-bg-color rounded-lg border border-gray-700 space-y-3">
+                        <label class="text-sm font-semibold mb-3 block text-white">Theme Color Control</label>
+                        
+                        <!-- Color Picker Components -->
+                        <div class="flex items-center justify-between">
+                            <label for="primary-accent-picker" class="text-xs text-gray-400">Primary Accent</label>
+                            <input type="color" id="primary-accent-picker" value="#A78BFA" 
+                                oninput="changeColor('primary-accent', this.value)" class="color-picker-input">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <label for="heading-color-picker" class="text-xs text-gray-400">Main Heading</label>
+                            <input type="color" id="heading-color-picker" value="#EDE9FE" 
+                                oninput="changeColor('heading-color', this.value)" class="color-picker-input">
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <label for="subheading-color-picker" class="text-xs text-gray-400">Subheading</label>
+                            <input type="color" id="subheading-color-picker" value="#C4B5FD" 
+                                oninput="changeColor('subheading-color', this.value)" class="color-picker-input">
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <label for="text-color-picker" class="text-xs text-gray-400">Body Text</label>
+                            <input type="color" id="text-color-picker" value="#D1D5DB" 
+                                oninput="changeColor('text-color', this.value)" class="color-picker-input">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <label for="secondary-bg-picker" class="text-xs text-gray-400">Card Background</label>
+                            <input type="color" id="secondary-bg-picker" value="#1F2937" 
+                                oninput="changeColor('secondary-bg', this.value)" class="color-picker-input">
+                        </div>
+
+                        <!-- Reset to Default Button -->
+                        <button onclick="resetToDefault()" class="w-full py-2 text-sm font-bold rounded-lg text-[#0d0d0d] bg-gray-400 hover:bg-gray-300 transition mt-4 flex items-center justify-center">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4 mr-2"></i>
+                            Reset to Default
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Overlay -->
+        <div id="menu-overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 z-30" onclick="toggleMenu()"></div>
+
+    </div>
+
+    <!-- JavaScript Logic (Local Storage & Theme) -->
+    <script>
+        // --- DATA STRUCTURE ---
+        const chaptersData = [
+            { id: 'c0', title: 'Home', icon: 'Home', content: 'home' },
+            { id: 'c1', title: 'Chapter 1: Basic Introduction', icon: 'BookOpen',
+                subTopics: ['Samjho freelancing ka structure', 'Legal basics', 'Mindset', 'What not to do'],
+                content: `
+                    <p><strong>Freelancing matlab apna boss khud banna</strong> – aap independent kaam karte ho, clients se projects lete ho, aur paise kamate ho, bina kisi full-time job ke. Animation mein, jaise <strong>2D short marketing videos</strong> (jaise ads ya explainer videos) aur <strong>2D cartoon character model sheets</strong> (jaise character designs with poses, expressions), yeh bahut demand mein hai businesses, brands, aur content creators ke liye.</p>
+                    <div class="mt-6 p-4 rounded-lg bg-green-900/50 border border-green-700">
+                        <h4 class="font-bold text-lg mb-2 text-green-300">Pros</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-1 text-green-100">
+                            <li>Flexible timings, ghar se kaam.</li>
+                            <li>Unlimited earning potential (jaise beginner 10k-50k INR per project, expert 1 lakh+).</li>
+                            <li>Skills improve hote rehte hain.</li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 p-4 rounded-lg bg-red-900/50 border border-red-700">
+                        <h4 class="font-bold text-lg mb-2 text-red-300">Cons</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-1 text-red-100">
+                            <li>Irregular income shuru mein.</li>
+                            <li>Clients dhundhna padta hai.</li>
+                            <li>Taxes khud handle karne padte hain, no paid leaves.</li>
+                        </ul>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Basics</h3>
+                    <div class="space-y-4">
+                        <p><strong class="primary-accent-text">Samjho freelancing ka structure:</strong> Client aapko brief deta hai, aap quote dete ho, agree hone pe kaam karte ho, deliver karte ho, payment lete ho.</p>
+                        <p><strong class="primary-accent-text">Legal basics:</strong> India mein, GST register karo agar annual income 20 lakh+ ho, bank account ready rakho for payments.</p>
+                        <p><strong class="primary-accent-text">Mindset:</strong> Patience rakho, shuru mein rejections milenge, but consistent raho.</p>
+                        <p><strong class="primary-accent-text">What not to do:</strong> Free mein kaam mat karo shuru se, warna value kam lagti hai. Overcommit mat karo, jaise ek hi time pe 5 projects mat lo.</p>
+                    </div>
+                `
+            },
+            { id: 'c2', title: 'Chapter 2: Skills Ko Develop Karna', icon: 'Zap',
+                subTopics: ['Basic Learning', 'Tools Master Karo', 'Advanced Skills', 'Practice Projects', 'Certifications', 'What to do/not to do'],
+                content: `
+                    <p>Aapko pehle apne animation skills strong karne hain. Aap 2D animation mein focus kar rahe ho, to tools jaise Adobe Animate, Toon Boom, Blender (free for 2D), ya Krita se shuru karo.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
+                    <div class="space-y-4">
+                        <p><strong class="primary-accent-text">Basic Learning:</strong> Free resources se shuru karo – YouTube channels jaise "The Animator's Survival Kit" tutorials, ya free courses on Coursera/Skillshare. Daily 1-2 hours practice karo.</p>
+                        <p><strong class="primary-accent-text">Tools Master Karo:</strong> Adobe After Effects for marketing videos, Illustrator for character sheets. Free alternatives: Synfig Studio ya Pencil2D. Install karo aur tutorials dekho.</p>
+                        <p><strong class="primary-accent-text">Advanced Skills:</strong> Character rigging sikho, timing aur spacing samjho for smooth animation. Marketing videos ke liye storytelling focus karo.</p>
+                        <p><strong class="primary-accent-text">Practice Projects:</strong> Khud se banao – ek fake brand ke liye 15-second ad, ya 5 poses wala character sheet. Time track karo.</p>
+                        <p><strong class="primary-accent-text">Certifications:</strong> Udemy pe "2D Animation for Beginners" course lo, certificate add karo portfolio mein.</p>
+                        <p><strong class="primary-accent-text">What to do/not to do:</strong> Daily sketch karo, feedback lo. Advanced tools pe jump mat karo bina basics ke. Copy mat karo.</p>
+                    </div>
+                `
+            },
+            { id: 'c3', title: 'Chapter 3: Portfolio Banana', icon: 'Target',
+                subTopics: ['Content Decide Karo', 'Tools for Portfolio', 'Quality Ensure Karo', 'Update Regularly', 'Show Process', 'What to do/not to do'],
+                content: `
+                    <p><strong>Portfolio aapka resume hai</strong> – bina iske koi client nahi milega. Jab real projects nahi hain, to fake ya personal projects se shuru karo.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
+                    <div class="space-y-4">
+                        <p><strong class="primary-accent-text">Content Decide Karo:</strong> 5-10 samples banao – 2-3 short videos, 3-4 character model sheets.</p>
+                        <p><strong class="primary-accent-text">Tools for Portfolio:</strong> Free website banao on <strong class="text-yellow-400">Behance</strong>, ya WordPress free version. Upload high-res content, descriptions add karo.</p>
+                        <p><strong class="primary-accent-text">Quality Ensure Karo:</strong> Videos ko export karo in MP4, 1080p. Character sheets PDF mein. Watermark add mat karo, but credit khud ko do.</p>
+                        <p><strong class="primary-accent-text">Update Regularly:</strong> Har mahine new sample add karo.</p>
+                        <p><strong class="primary-accent-text">Show Process:</strong> Behind-the-scenes add karo, jaise sketches to final animation.</p>
+                        <p><strong class="primary-accent-text">What to do/not to do:</strong> Personal projects mein variety rakho. Stolen work mat use karo. Quality over quantity.</p>
+                    </div>
+                `
+            },
+            { id: 'c4', title: 'Chapter 4: Best Platforms Ka Chunaav', icon: 'Users',
+                subTopics: ['Upwork', 'Fiverr', 'Contra', 'Twine/Truelancer', 'What to do/not to do'],
+                content: `
+                    <p>Animation freelancers ke liye top platforms 2025 mein yeh hain: <strong class="primary-accent-text">Upwork, Fiverr, Contra, Twine, Truelancer</strong>. Yeh sab global hain aur animation gigs ke liye ache.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Platform Selection Guide</h3>
+                    <div class="space-y-4">
+                        <p><strong class="primary-accent-text">Upwork:</strong> Best for beginners, high-paying clients. Cons: Competition high, fees 10%.</p>
+                        <p><strong class="primary-accent-text">Fiverr:</strong> Gig-based, easy start. Cons: Low prices shuru mein.</p>
+                        <p><strong class="primary-accent-text">Contra:</strong> No fees, direct payments. Cons: Kam users.</p>
+                        <p><strong class="primary-accent-text">Twine/Truelancer:</strong> Character design ke liye ache, India-friendly.</p>
+                        <p><strong class="primary-accent-text">What to do/not to do:</strong> 2-3 platforms se shuru karo. Sab platforms pe mat sign up karo ek baar mein, focus rakho.</p>
+                    </div>
+                `
+            },
+            { id: 'c5', title: 'Chapter 5: Profiles Create Aur Optimize', icon: 'Send',
+                subTopics: ['Sign Up', 'Profile Details', 'Portfolio Link', 'Kahan Banaye', 'Optimize', 'What to do/not to do'],
+                content: `
+                    <p>Profiles aapka first impression hain – attractive banao taaki clients attract ho.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
+                    <div class="space-y-4">
+                        <p><strong class="primary-accent-text">Sign Up:</strong> Email, phone verify karo. Platforms jaise Upwork pe skills test lo (free).</p>
+                        <p><strong class="primary-accent-text">Profile Details:</strong> Photo professional daalo, bio likho: "I'm a beginner 2D animator specializing in marketing videos and character sheets..."</p>
+                        <p><strong class="primary-accent-text">Portfolio Link:</strong> Behance se link add karo.</p>
+                        <p><strong class="primary-accent-text">Kahan Banaye:</strong> Upwork, Fiverr, LinkedIn, Behance, Dribbble.</p>
+                        <p><strong class="primary-accent-text">Optimize:</strong> Keywords use karo jaise "2D marketing animation freelancer". Reviews ke liye shuru mein low-price gigs offer karo.</p>
+                        <p><strong class="primary-accent-text">What to do/not to do:</strong> Daily profile check karo. Fake info mat daalo, warna suspended ho jaoge.</p>
+                    </div>
+                `
+            },
+            { id: 'c6', title: 'Chapter 6: Clients Ko Find Aur Approach Karna', icon: 'Users',
+                subTopics: ['Search Jobs', 'Pitch Karo', 'Networking', 'First Client', 'Follow Up', 'What to do/not to do'],
+                content: `
+                    <p>Clients dhundhna shuru mein tough, but consistent raho.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
+                    <div class="space-y-4">
+                        <p><strong class="primary-accent-text">Search Jobs:</strong> Platforms pe search karo "2D animation needed" ya proposals submit karo.</p>
+                        <p><strong class="primary-accent-text">Pitch Karo:</strong> Personalized message likho, portfolio link do. Example: "Hi, I can create a 30-sec animated ad in 3 days for $100..."</p>
+                        <p><strong class="primary-accent-text">Networking:</strong> LinkedIn pe connect karo animation studios se, groups join karo.</p>
+                        <p><strong class="primary-accent-text">First Client:</strong> Friends/family se shuru karo, unke liye free/low-cost karo feedback ke liye.</p>
+                        <p><strong class="primary-accent-text">Follow Up:</strong> Reject hone pe polite reply do, future mein yaad rakhein.</p>
+                        <p><strong class="primary-accent-text">What to do/not to do:</strong> Personalized pitches bhejo. Spam mat karo, warna blocked ho jaoge.</p>
+                    </div>
+                `
+            },
+            { id: 'c7', title: 'Chapter 7: Pricing Aur Payment Handle Karna', icon: 'DollarSign',
+                subTopics: ['Rates Decide', 'Charge Kaise', 'Payments', 'Increase Karo', 'Taxes', 'What to do/not to do'],
+                content: `
+                    <p>Beginner hone pe low start karo, but value samjho.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
+                    <div class="space-y-4">
+                        <p><strong class="primary-accent-text">Rates Decide:</strong> 2D short video (30 sec): Beginner $50-100. Model sheet: $20-50 per character. Hourly: $20-25.</p>
+                        <p><strong class="primary-accent-text">Charge Kaise:</strong> Milestone-based, jaise 50% advance, 50% delivery pe.</p>
+                        <p><strong class="primary-accent-text">Payments:</strong> Platforms pe built-in, ya PayPal/Stripe for direct. India mein <strong class="text-yellow-400">Wise</strong> use karo for international.</p>
+                        <p><strong class="primary-accent-text">Increase Karo:</strong> Reviews mile to rates badhao, jaise 3 months baad 20% up.</p>
+                        <p><strong class="primary-accent-text">Taxes:</strong> 18% GST add karo if applicable, invoice banao.</p>
+                        <p><strong class="primary-accent-text">What to do/not to do:</strong> Market research karo. Undercharge mat karo hamesha, warna stuck ho jaoge.</p>
+                    </div>
+                `
+            },
+            { id: 'c8', title: 'Chapter 8: Foreign Clients Kaise Paayein', icon: 'Users',
+                subTopics: ['Platforms Use', 'LinkedIn Optimize', 'Cold Outreach', 'Time Zones Handle', 'Challenges Solve', 'AI Tools Use', 'What to do/not to do'],
+                content: `
+                    <p>Foreign clients se zyada paise (USD mein), but competition high.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide (India se)</h3>
+                    <div class="space-y-4">
+                        <p><strong class="primary-accent-text">Platforms Use:</strong> Upwork/Fiverr pe focus, international jobs apply karo.</p>
+                        <p><strong class="primary-accent-text">LinkedIn Optimize:</strong> Bio mein "Available for global projects" likho, US/UK companies ko connect karo. Daily posts karo.</p>
+                        <p><strong class="primary-accent-text">Cold Outreach:</strong> Emails bhejo companies ko. Tools jaise <strong class="text-yellow-400">Hunter.io</strong> se emails dhundho.</p>
+                        <p><strong class="primary-accent-text">Time Zones Handle:</strong> US clients ke liye raat mein available raho.</p>
+                        <p><strong class="primary-accent-text">Challenges Solve:</strong> Low rates se shuru karo to attract, phir build trust. English strong rakho.</p>
+                        <p><strong class="primary-accent-text">AI Tools Use:</strong> Prompts se pitches generate karo.</p>
+                        <p><strong class="primary-accent-text">What to do/not to do:</strong> Referrals maango. Location hide mat karo, transparent raho.</p>
+                    </div>
+                `
+            },
+            { id: 'c9', title: 'Chapter 9: Communication Aur Delivery', icon: 'CheckCircle',
+                subTopics: ['Communication', 'Contracts', 'Delivery', 'Deadlines', 'Feedback', 'What to do/not to do'],
+                content: `
+                    <p>Yeh success ka key hai – clear communication se repeat clients milte hain.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
+                    <div class="space-y-4">
+                        <p><strong class="primary-accent-text">Communication:</strong> Zoom/Slack use karo calls ke liye. Brief samjho, questions poocho.</p>
+                        <p><strong class="primary-accent-text">Contracts:</strong> Free templates from platforms, include scope, deadlines, revisions, payment terms. Sign karwao.</p>
+                        <p><strong class="primary-accent-text">Delivery:</strong> Files share karo Google Drive se, feedback lo, revisions karo.</p>
+                        <p><strong class="primary-accent-text">Deadlines:</strong> Time buffer rakho, jaise 3 days ka project 4 days quote karo.</p>
+                        <p><strong class="primary-accent-text">Feedback:</strong> Har project ke end pe review maango.</p>
+                        <p><strong class="primary-accent-text">What to do/not to do:</strong> Professional language use karo, timely reply do. Scope creep allow mat karo.</p>
+                    </div>
+                `
+            },
+            { id: 'c10', title: 'Chapter 10: Expert Banna Aur Scale Karna', icon: 'Target',
+                subTopics: ['Continuous Learning', 'Networking', 'Scale', 'Marketing', 'Goals Set', 'What to do/not to do'],
+                content: `
+                    <p>Long-term mein expert bano.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
+                    <div class="space-y-4">
+                        <p><strong class="primary-accent-text">Continuous Learning:</strong> New trends sikho jaise AI in animation (jaise Adobe Firefly). Courses lo.</p>
+                        <p><strong class="primary-accent-text">Networking:</strong> Join Discord/Reddit groups for animators, collaborate karo.</p>
+                        <p><strong class="primary-accent-text">Scale:</strong> Team banao baad mein, multiple projects lo. Website banao apna.</p>
+                        <p><strong class="primary-accent-text">Marketing:</strong> Social media pe promote karo, YouTube pe tutorials daalo.</p>
+                        <p><strong class="primary-accent-text">Goals Set:</strong> Monthly targets jaise 5 projects, income double karna.</p>
+                        <p><strong class="primary-accent-text">What to do/not to do:</strong> Track progress, journal rakho. Burnout avoid karo, breaks lo. Niche define karo for success.</p>
+                    </div>
+                `
+            },
+            { id: 'c11', title: "Chapter 11: Do's and Don'ts", icon: 'BookOpen',
+                subTopics: ["Consistent raho, daily kaam karo", "Feedback lo aur improve karo", "Backup files rakho", "Taxes aur finances track karo", "Polite aur honest raho clients se", "Free work mat karo", "Deadlines miss mat karo", "Copy work mat karo", "Overpromise mat karo", "Scams se bacho"],
+                content: `
+                    <p>Yeh final chapter aapko common mistakes se bachayega aur aapki professional image banayega.</p>
+                    <div class="mt-6 p-4 rounded-lg bg-green-900/50 border border-green-700">
+                        <h4 class="font-bold text-lg mb-2 text-green-300">Do's</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-1 text-green-100">
+                            <li>Consistent raho, daily kaam karo.</li>
+                            <li>Feedback lo aur improve karo.</li>
+                            <li>Backup files rakho, data loss avoid karo.</li>
+                            <li>Taxes aur finances track karo.</li>
+                            <li>Polite aur honest raho clients se.</li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 p-4 rounded-lg bg-red-900/50 border border-red-700">
+                        <h4 class="font-bold text-lg mb-2 text-red-300">Don'ts</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-1 text-red-100">
+                            <li>Free work mat karo except portfolio ke liye.</li>
+                            <li>Deadlines miss mat karo, reputation kharab hoti hai.</li>
+                            <li>Copy work mat karo, original raho.</li>
+                            <li>Overpromise mat karo skills ke.</li>
+                            <li>Scams se bacho, jaise advance payment maangne wale fake clients.</li>
+                        </ul>
+                    </div>
+                `
+            }
+        ];
+
+        let currentPageId = 'c0'; // Start on the home page
+        
+        // Global state for Local Storage
+        window.courseProgress = {
+            completionStatus: {}, // e.g., { 'c1_s1': true, 'c2_s3': false }
+        };
+
+        const LOCAL_STORAGE_KEY = 'freelancingRoadmapProgress';
+        const FONT_SIZE_KEY = 'freelancingRoadmapFontSize';
+        const COLOR_STORAGE_KEY = 'freelancingRoadmapCustomColors';
+
+        // Default colors for reset functionality (NEW LIGHT PURPLE THEME)
+        const DEFAULT_COLORS = {
+            'primary-accent': '#A78BFA', // Lighter Purple/Violet-400
+            'heading-color': '#EDE9FE',
+            'subheading-color': '#C4B5FD',
+            'text-color': '#D1D5DB',
+            'secondary-bg': '#1F2937'
+        };
+        const DEFAULT_FONT_SIZE = 16;
+
+
+        // --- LOCAL STORAGE FUNCTIONS ---
+
+        const loadProgress = () => {
+            try {
+                const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+                if (savedData) {
+                    const parsedData = JSON.parse(savedData);
+                    window.courseProgress.completionStatus = parsedData.completionStatus || {};
+                } else {
+                    window.courseProgress.completionStatus = {};
+                }
+            } catch (error) {
+                console.error("Error loading progress from Local Storage:", error);
+                window.courseProgress.completionStatus = {}; // Reset on error
+            }
+        };
+
+        window.saveProgress = (completionStatus) => {
+            window.courseProgress.completionStatus = completionStatus;
+            try {
+                const dataToSave = JSON.stringify({ completionStatus });
+                localStorage.setItem(LOCAL_STORAGE_KEY, dataToSave);
+            } catch (error) {
+                console.error("Error saving progress to Local Storage:", error);
+            }
+            // Immediately update the UI after saving
+            window.updateUI();
+        };
+
+        // --- THEME/COLOR CONTROL FUNCTIONS ---
+
+        const loadColors = () => {
+            try {
+                const savedColors = localStorage.getItem(COLOR_STORAGE_KEY);
+                // Return saved colors or defaults if not found
+                return savedColors ? JSON.parse(savedColors) : DEFAULT_COLORS;
+            } catch (error) {
+                console.error("Error loading colors:", error);
+                return DEFAULT_COLORS;
+            }
+        };
+
+        window.applyColors = (colors) => {
+            const root = document.documentElement;
+            // Iterate over all keys and apply as CSS variables and update picker values
+            Object.keys(DEFAULT_COLORS).forEach(key => {
+                // Use saved color, or default if saved color is missing
+                const colorValue = colors[key] || DEFAULT_COLORS[key]; 
+                root.style.setProperty(`--${key}`, colorValue);
+                
+                const picker = document.getElementById(`${key}-picker`);
+                if (picker) {
+                    picker.value = colorValue;
+                }
+            });
+        };
+
+        window.changeColor = (varName, value) => {
+            const currentColors = loadColors();
+            currentColors[varName] = value;
+            
+            // Apply immediately to the root element for instant feedback
+            document.documentElement.style.setProperty(`--${varName}`, value);
+            
+            // Save new set of colors
+            try {
+                localStorage.setItem(COLOR_STORAGE_KEY, JSON.stringify(currentColors));
+            } catch (error) {
+                console.error("Error saving color:", error);
+            }
+        };
+
+        const resetColors = () => {
+            window.applyColors(DEFAULT_COLORS);
+            try {
+                // Remove the custom settings from local storage
+                localStorage.removeItem(COLOR_STORAGE_KEY);
+            } catch (error) {
+                console.error("Error resetting colors:", error);
+            }
+        };
+
+        // --- FONT SIZE CONTROL FUNCTIONS ---
+
+        const loadFontSize = () => {
+            try {
+                const savedSize = localStorage.getItem(FONT_SIZE_KEY);
+                const size = savedSize ? parseInt(savedSize) : DEFAULT_FONT_SIZE;
+                
+                // Set the current font size in the UI and apply it
+                const root = document.getElementById('content-root');
+                const slider = document.getElementById('text-size-slider');
+                const sizeText = document.getElementById('current-font-size');
+
+                if (root) root.style.fontSize = `${size}px`;
+                if (slider) slider.value = size;
+                if (sizeText) sizeText.textContent = `${size}px`;
+                
+                return size;
+
+            } catch (error) {
+                console.error("Error loading font size from Local Storage:", error);
+                return DEFAULT_FONT_SIZE;
+            }
+        };
+
+        window.changeFontSize = (size) => {
+            const sizeInPixels = `${size}px`;
+            const root = document.getElementById('content-root');
+            const sizeText = document.getElementById('current-font-size');
+
+            if (root) root.style.fontSize = sizeInPixels;
+            if (sizeText) sizeText.textContent = sizeInPixels;
+            
+            // Save the new size
+            localStorage.setItem(FONT_SIZE_KEY, size);
+        };
+        
+        const resetFontSize = () => {
+            window.changeFontSize(DEFAULT_FONT_SIZE); 
+            // Save is handled inside changeFontSize
+        };
+
+        // --- FULL RESET FUNCTION ---
+        window.resetToDefault = () => {
+            resetColors();
+            resetFontSize();
+            // After reset, re-apply the full UI to refresh everything
+            window.updateUI();
+        };
+
+
+        // --- UI UTILITY FUNCTIONS ---
+
+        const toggleMenu = () => {
+            const menu = document.getElementById('menu-drawer');
+            const overlay = document.getElementById('menu-overlay');
+            const isOpen = menu.classList.toggle('open');
+
+            if (isOpen) {
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                overlay.classList.add('opacity-50');
+            } else {
+                overlay.classList.remove('opacity-50');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+        };
+
+        const navigateTo = (chapterId) => {
+            currentPageId = chapterId;
+            window.updateUI(); // Render the new page content
+            // Close menu if open
+            if (document.getElementById('menu-drawer').classList.contains('open')) {
+                toggleMenu();
+            }
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // --- PROGRESS CALCULATION & HANDLER ---
+
+        const calculateProgress = () => {
+            const status = window.courseProgress.completionStatus;
+            let totalSubTopics = 0;
+            let completedSubTopics = 0;
+            const chapterProgress = {}; // { c1: { total: 4, completed: 2, percent: 50 }, ... }
+
+            chaptersData.filter(c => c.id !== 'c0').forEach(chapter => {
+                const total = chapter.subTopics ? chapter.subTopics.length : 0;
+                let completed = 0;
+                
+                chapter.subTopics.forEach((_, index) => {
+                    const key = `${chapter.id}_s${index + 1}`;
+                    if (status[key]) {
+                        completed++;
+                    }
+                });
+
+                totalSubTopics += total;
+                completedSubTopics += completed;
+
+                chapterProgress[chapter.id] = {
+                    total,
+                    completed,
+                    percent: total > 0 ? Math.round((completed / total) * 100) : 100,
+                    isComplete: total > 0 && completed === total
+                };
+            });
+
+            const overallPercent = totalSubTopics > 0 ? Math.round((completedSubTopics / totalSubTopics) * 100) : 0;
+
+            return { overallPercent, chapterProgress };
+        };
+
+        const handleCheckboxChange = (chapterId, subTopicIndex, isChecked) => {
+            const key = `${chapterId}_s${subTopicIndex}`;
+            // Create a new status object by spreading the old one and updating the key
+            const newStatus = { ...window.courseProgress.completionStatus };
+            if (isChecked) {
+                newStatus[key] = true;
+            } else {
+                delete newStatus[key];
+            }
+            
+            // Save to Local Storage and trigger UI update
+            window.saveProgress(newStatus);
+        };
+        
+        window.handleCheckboxChange = handleCheckboxChange; // Make accessible from inline HTML
+
+        // --- RENDERING FUNCTIONS ---
+
+        const renderHomeContent = () => {
+            const { overallPercent, chapterProgress } = calculateProgress();
+            
+            return `
+                <div class="space-y-8">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold leading-tight">
+                        Freelancing Roadmap: <span class="primary-accent-text">2D Animation & Design</span>
+                    </h2>
+                    <p class="text-xl text-gray-300">
+                        This is a complete roadmap for starting your freelancing career, focused on 2D animated marketing videos and character model sheets. Follow the chapters and track your progress.
+                    </p>
+                    
+                    <div class="mt-8 p-6 rounded-xl tertiary-bg-color shadow-inner border border-gray-700">
+                        <p class="text-lg font-semibold mb-2 text-white">Your Overall Progress</p>
+                        <div class="w-full bg-[#3d3d3d] rounded-full h-3">
+                            <div class="h-3 rounded-full primary-accent-bg transition-all duration-500" style="width: ${overallPercent}%;"></div>
+                        </div>
+                        <p class="text-sm mt-2 text-gray-400 font-medium">${overallPercent}% Complete (${overallPercent === 100 ? 'Course Finished! 🎉' : 'Keep Going!'})</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 pt-4">
+                        ${chaptersData.filter(c => c.id !== 'c0').map(chapter => {
+                            const prog = chapterProgress[chapter.id];
+                            const badgeClass = prog.isComplete ? 'bg-green-600' : 'bg-yellow-600';
+                            const buttonClass = prog.isComplete ? 'bg-green-700 hover:bg-green-600' : 'primary-accent-bg hover:opacity-80';
+
+                            return `
+                                <div class="p-6 secondary-bg-color rounded-lg shadow-xl border border-gray-700 flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex justify-between items-start">
+                                            <h3 class="text-xl font-bold mb-2">${chapter.title}</h3>
+                                            <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${badgeClass}">${prog.percent}%</span>
+                                        </div>
+                                        <p class="text-sm mb-4">${prog.isComplete ? 'Completed!' : `${prog.completed} / ${prog.total} sections done.`}</p>
+                                    </div>
+                                    <button onclick="navigateTo('${chapter.id}')" class="mt-4 w-full py-2.5 rounded-lg text-[#0d0d0d] font-bold transition ${buttonClass}">
+                                        ${prog.isComplete ? 'Review Chapter' : 'Start/Continue'}
+                                        <i data-lucide="chevron-right" class="w-5 h-5 inline ml-1"></i>
+                                    </button>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        };
+
+        const renderChapterContent = (chapter) => {
+            const { chapterProgress } = calculateProgress();
+            const prog = chapterProgress[chapter.id];
+            const nextChapterIndex = chaptersData.findIndex(c => c.id === chapter.id) + 1;
+            const nextChapter = chaptersData[nextChapterIndex];
+
+            // Content Header with Progress Bar
+            let html = `
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-2">${chapter.title}</h2>
+                <div class="text-sm font-medium text-gray-400 mb-6">Progress: ${prog.completed} / ${prog.total} Sections Complete</div>
+                
+                <div class="w-full bg-[#3d3d3d] rounded-full h-2.5 mb-8">
+                    <div class="h-2.5 rounded-full primary-accent-bg transition-all duration-500" style="width: ${prog.percent}%;"></div>
+                </div>
+                <div class="prose max-w-none">
+                    ${chapter.content}
+                </div>
+            `;
+
+            // Next/Finish Button
+            if (nextChapter) {
+                html += `
+                    <div class="mt-10 pt-6 border-t border-gray-700 flex justify-end">
+                        <button onclick="navigateTo('${nextChapter.id}')" class="py-3 px-8 rounded-lg primary-accent-bg text-[#0d0d0d] font-bold shadow-lg hover:opacity-80 transition flex items-center">
+                            ${prog.isComplete ? 'Go to Next Chapter' : 'Skip to Next Chapter'}
+                            <i data-lucide="chevron-right" class="w-5 h-5 ml-2"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                 html += `
+                    <div class="mt-10 pt-6 border-t border-gray-700 flex justify-center">
+                        <div class="text-2xl font-bold text-green-400">Roadmap Complete! 🎉</div>
+                    </div>
+                `;
+            }
+
+            return html;
+        };
+
+        const renderProgressSidebar = (chapter) => {
+            const { chapterProgress } = calculateProgress();
+            const prog = chapterProgress[chapter.id];
+
+            let html = `
+                <h3 class="text-xl font-bold mb-4 border-b pb-2 border-gray-600 text-white">Chapter Progress</h3>
+                <div class="w-full bg-[#3d3d3d] rounded-full h-2.5 mb-4">
+                    <div class="h-2.5 rounded-full primary-accent-bg transition-all duration-500" style="width: ${prog.percent}%;"></div>
+                </div>
+                <div class="text-sm font-medium text-gray-400 mb-6">${prog.completed} / ${prog.total} Sections Marked Done</div>
+
+                <div class="space-y-2">
+                    ${chapter.subTopics.map((topic, index) => {
+                        const key = `${chapter.id}_s${index + 1}`;
+                        const isChecked = window.courseProgress.completionStatus[key] || false;
+                        
+                        // Structure with topic and checkbox on the same line (using justify-between)
+                        return `
+                            <div class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-700 transition">
+                                <label for="${key}" class="text-sm text-gray-300 leading-relaxed cursor-pointer flex-grow pr-2">${topic}</label>
+                                <input 
+                                    type="checkbox" 
+                                    id="${key}" 
+                                    class="custom-checkbox flex-shrink-0" 
+                                    ${isChecked ? 'checked' : ''} 
+                                    onchange="window.handleCheckboxChange('${chapter.id}', ${index + 1}, this.checked)"
+                                >
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            return html;
+        };
+
+        const renderMenuLinks = (chapterProgress) => {
+            const nav = document.getElementById('menu-nav-links');
+            nav.innerHTML = chaptersData.map(chapter => {
+                const prog = chapterProgress[chapter.id];
+                const isComplete = prog && prog.isComplete;
+                const activeClass = currentPageId === chapter.id ? 'secondary-bg-color border-l-4 primary-accent-border' : 'hover:bg-gray-800';
+                // Apply primary accent color to the title when not complete
+                const textColor = isComplete ? 'text-green-400' : 'primary-accent-text'; 
+                const icon = chapter.icon;
+
+                return `
+                    <a href="#" onclick="event.preventDefault(); navigateTo('${chapter.id}')" 
+                       class="flex items-center p-3 rounded-lg transition ${activeClass}">
+                        <i data-lucide="${icon}" class="w-5 h-5 mr-3 ${isComplete ? 'text-green-400' : 'primary-accent-text'}"></i>
+                        <span class="font-medium ${textColor}">${chapter.title}</span>
+                        ${isComplete ? '<i data-lucide="check-circle" class="w-5 h-5 ml-auto text-green-400"></i>' : ''}
+                    </a>
+                `;
+            }).join('');
+        };
+
+        window.updateUI = () => {
+            const { overallPercent, chapterProgress } = calculateProgress();
+
+            // 1. Update Menu Progress Bar
+            const overallBar = document.getElementById('overall-progress-bar');
+            const overallText = document.getElementById('overall-progress-text');
+            if(overallBar) overallBar.style.width = `${overallPercent}%`;
+            if(overallText) overallText.textContent = `${overallPercent}% Complete`;
+
+            // 2. Render Menu Links (updates completion icons)
+            renderMenuLinks(chapterProgress);
+
+            // 3. Render Current Page Content and Sidebar
+            const currentChapter = chaptersData.find(c => c.id === currentPageId);
+            const contentDisplay = document.getElementById('content-display');
+            const sidebarContainer = document.getElementById('progress-sidebar-container');
+            const sidebar = document.getElementById('progress-sidebar');
+            
+            if (currentChapter) {
+                if (currentChapter.id === 'c0') {
+                    // Home Page
+                    contentDisplay.innerHTML = renderHomeContent();
+                    sidebarContainer.classList.add('hidden', 'lg:block'); // Hide sidebar on home
+                } else {
+                    // Chapter Page
+                    contentDisplay.innerHTML = renderChapterContent(currentChapter);
+                    sidebar.innerHTML = renderProgressSidebar(currentChapter);
+                    sidebarContainer.classList.remove('hidden', 'lg:block'); // Show sidebar on chapter pages
+                }
+            } else {
+                 contentDisplay.innerHTML = `<div class="text-red-500">Error: Page content not found.</div>`;
+                 sidebarContainer.classList.add('hidden', 'lg:block');
+            }
+            
+            // Re-render Lucide icons for injected content
+            if(window.createIcons) {
+                window.createIcons({ icons: { Menu, X, CheckCircle, Home, Send, DollarSign, Users, Target, BookOpen, ChevronRight, Zap, Palette, RotateCcw } });
+            }
+        };
+
+        // Initial load: Load progress, font size, and theme from Local Storage and render UI
+        window.addEventListener('load', () => {
+            loadProgress();
+            
+            // Load and apply custom colors
+            const initialColors = loadColors();
+            window.applyColors(initialColors);
+            
+            loadFontSize(); // Load and apply font size settings
+            window.updateUI(); 
+        });
+        
+        // Ensure functions are globally accessible
+        window.navigateTo = navigateTo; 
+        window.toggleMenu = toggleMenu;
+        window.changeColor = changeColor;
+        window.changeFontSize = changeFontSize; 
+    </script>
+</body>
+</html>            transform: translateX(-100%);
         }
         #menu-drawer.open {
             transform: translateX(0);
