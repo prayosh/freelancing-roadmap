@@ -4,34 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freelancing Roadmap: Animation & Design</title>
-
-    <!-- Manifest file link -->
-<link rel="manifest" href="manifest.json">
-
-<!-- Favicon for browser tab -->
-<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-
-<!-- Apple touch icon (for Add to Home Screen) -->
-<link rel="apple-touch-icon" href="logo.png">
-
-<!-- Theme color for mobile browsers -->
-<meta name="theme-color" content="#000000">
+    
+    <!-- PWA/SEO Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <meta name="theme-color" content="#121212"> <!-- Set to match menu background -->
     
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Base Theme Variables (Customizable via Controls) */
+        /* --- DEFAULT BLUE-PURPLE THEME --- */
         :root {
-            /* Customizable Colors */
-            --primary-accent: #00BFFF; /* Buttons, Progress, Icons */
-            --heading-color: #FFFFFF; /* Main Headings (H1, H2) */
-            --subheading-color: #e0e0e0; /* Subheadings (H3) */
-            --text-color: #c0c0c0;    /* General Body Text */
-            --secondary-bg: #1e1e1e;  /* Content Card Background */
+            /* Customizable Colors (Default Blue-Violet Theme) */
+            --primary-accent: #8B5CF6; /* Violet-500/600 - Buttons, Progress, Icons */
+            --heading-color: #EDE9FE; /* Light Violet - Main Headings (H1, H2) */
+            --subheading-color: #A78BFA; /* Violet-400 - Subheadings (H3) */
+            --text-color: #D1D5DB;    /* Gray-300 - General Body Text */
+            --secondary-bg: #1F2937;  /* Dark Blue Gray (Card Background) */
             
             /* Fixed Colors (for overall dark mode base) */
             --primary-bg: #0d0d0d;    /* Deep Charcoal (Body) */
-            --tertiary-bg: #2c2c2c;   /* Sidebar Background/Menu Footer */
+            --tertiary-bg: #121212;   /* Sidebar Background/Menu Footer */
         }
 
         /* Apply Theme Variables to body and global elements */
@@ -70,11 +64,6 @@
             transition: color 0.3s;
         }
         
-        /* Special case for the main header title to always use accent (Removed H1, keeping this for potential future H1 use in content) */
-        header h1 {
-            color: var(--primary-accent);
-        }
-
         /* Custom Checkbox (uses accent color) */
         .custom-checkbox:checked { background-color: var(--primary-accent); border-color: var(--primary-accent); }
         .custom-checkbox:checked::after { color: var(--primary-bg); }
@@ -94,12 +83,11 @@
         
         /* Color Picker Styles */
         .color-picker-input {
-            /* Customize the color input box to be smaller and cleaner */
-            width: 2.5rem; /* 40px */
-            height: 1.5rem; /* 24px */
+            width: 2.5rem; 
+            height: 1.5rem; 
             padding: 0;
             border: 2px solid var(--text-color);
-            border-radius: 0.375rem; /* rounded-md */
+            border-radius: 0.375rem; 
             cursor: pointer;
             overflow: hidden;
             background: transparent;
@@ -148,10 +136,9 @@
     </style>
     <!-- Load Lucide Icons -->
     <script type="module">
-        // Import lucide icons for use in the HTML
-        import { createIcons, Menu, X, CheckCircle, Home, Send, DollarSign, Users, Target, BookOpen, ChevronRight, Zap, Palette } from 'https://unpkg.com/lucide@latest';
+        import { createIcons, Menu, X, CheckCircle, Home, Send, DollarSign, Users, Target, BookOpen, ChevronRight, Zap, Palette, RotateCcw } from 'https://unpkg.com/lucide@latest';
         window.addEventListener('load', () => {
-            createIcons({ icons: { Menu, X, CheckCircle, Home, Send, DollarSign, Users, Target, BookOpen, ChevronRight, Zap, Palette } });
+            createIcons({ icons: { Menu, X, CheckCircle, Home, Send, DollarSign, Users, Target, BookOpen, ChevronRight, Zap, Palette, RotateCcw } });
         });
     </script>
 </head>
@@ -159,10 +146,10 @@
     <!-- Main Application Container -->
     <div class="flex flex-col min-h-screen">
 
-        <!-- Header - Fixed Heading Removed -->
+        <!-- Header - Fixed Heading Removed as requested -->
         <header class="bg-[#1a1a1a] shadow-lg sticky top-0 z-30">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                <!-- Heading (Freelance Roadmap 🚀) has been removed as requested -->
+                <!-- Heading previously here is now removed -->
             </div>
         </header>
 
@@ -185,7 +172,6 @@
 
         <!-- Floating Action Button (FAB) for Menu -->
         <button id="fab-menu" class="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 w-12 h-12 rounded-full primary-accent-bg text-[#0d0d0d] shadow-2xl flex items-center justify-center z-50 focus:outline-none" onclick="toggleMenu()">
-            <!-- Using Menu icon for three horizontal lines -->
             <i data-lucide="menu" class="w-6 h-6"></i>
         </button>
 
@@ -194,7 +180,7 @@
             
             <!-- Menu Header and Close Button -->
             <div class="p-6 pb-4 flex justify-between items-center sticky top-0 bg-[#121212] border-b border-gray-800">
-                <h2 class="text-2xl font-bold text-white">रोडमैप मेनू</h2>
+                <h2 class="text-2xl font-bold text-white">Roadmap Menu</h2>
                 <button onclick="toggleMenu()" class="text-gray-400 hover:text-white transition">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
@@ -204,7 +190,7 @@
             <div class="flex-grow p-6 overflow-y-auto">
                 <!-- Overall Progress Bar -->
                 <div class="mb-8 p-3 secondary-bg-color rounded-lg border border-gray-700">
-                    <p class="text-sm font-semibold mb-2">कुल प्रगति (Overall Progress)</p>
+                    <p class="text-sm font-semibold mb-2">Overall Progress</p>
                     <div class="w-full bg-[#3d3d3d] rounded-full h-2.5">
                         <div id="overall-progress-bar" class="h-2.5 rounded-full primary-accent-bg transition-all duration-500" style="width: 0%;"></div>
                     </div>
@@ -219,57 +205,58 @@
             
             <!-- Settings Section (Stuck to Bottom) -->
             <div class="p-6 pt-4 border-t border-gray-800 tertiary-bg-color">
-                <h3 class="text-lg font-bold text-white mb-4 flex items-center"><i data-lucide="palette" class="w-5 h-5 mr-2"></i> Settings (सेटिंग्स)</h3>
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center"><i data-lucide="palette" class="w-5 h-5 mr-2"></i> Settings</h3>
 
-                <!-- 1. Text Size Control (Full Width) -->
+                <!-- 1. Text Size Control -->
                 <div class="mb-6 p-3 secondary-bg-color rounded-lg border border-gray-700">
-                    <label for="text-size-slider" class="text-sm font-semibold mb-2 block text-white">Text Size Control (पाठ का आकार)</label>
+                    <label for="text-size-slider" class="text-sm font-semibold mb-2 block text-white">Text Size (Font Size)</label>
                     <input type="range" id="text-size-slider" min="14" max="20" value="16" step="1" oninput="changeFontSize(this.value)" class="w-full">
                     <div class="flex justify-between text-xs text-gray-400 mt-1">
-                        <span>A (छोटा)</span>
+                        <span>Small</span>
                         <span id="current-font-size">16px</span>
-                        <span>A (बड़ा)</span>
+                        <span>Large</span>
                     </div>
                 </div>
 
-                <!-- 2. Theme/Color Control (Color Pickers) -->
+                <!-- 2. Theme/Color Control -->
                 <div class="p-3 secondary-bg-color rounded-lg border border-gray-700 space-y-3">
-                    <label class="text-sm font-semibold mb-3 block text-white">Theme Color Control (थीम रंग)</label>
+                    <label class="text-sm font-semibold mb-3 block text-white">Theme Color Control</label>
                     
                     <!-- Color Picker Components -->
                     <div class="flex items-center justify-between">
-                        <label for="primary-accent-picker" class="text-xs text-gray-400">Primary Accent (मुख्य लहजा)</label>
-                        <input type="color" id="primary-accent-picker" value="#00BFFF" 
+                        <label for="primary-accent-picker" class="text-xs text-gray-400">Primary Accent</label>
+                        <input type="color" id="primary-accent-picker" value="#8B5CF6" 
                                oninput="changeColor('primary-accent', this.value)" class="color-picker-input">
                     </div>
                     
                     <div class="flex items-center justify-between">
-                        <label for="heading-color-picker" class="text-xs text-gray-400">Main Heading (मुख्य शीर्षक)</label>
-                        <input type="color" id="heading-color-picker" value="#FFFFFF" 
+                        <label for="heading-color-picker" class="text-xs text-gray-400">Main Heading</label>
+                        <input type="color" id="heading-color-picker" value="#EDE9FE" 
                                oninput="changeColor('heading-color', this.value)" class="color-picker-input">
                     </div>
 
                     <div class="flex items-center justify-between">
-                        <label for="subheading-color-picker" class="text-xs text-gray-400">Subheading (उपशीर्षक)</label>
-                        <input type="color" id="subheading-color-picker" value="#e0e0e0" 
+                        <label for="subheading-color-picker" class="text-xs text-gray-400">Subheading</label>
+                        <input type="color" id="subheading-color-picker" value="#A78BFA" 
                                oninput="changeColor('subheading-color', this.value)" class="color-picker-input">
                     </div>
 
                     <div class="flex items-center justify-between">
-                        <label for="text-color-picker" class="text-xs text-gray-400">Body Text (पाठ)</label>
-                        <input type="color" id="text-color-picker" value="#c0c0c0" 
+                        <label for="text-color-picker" class="text-xs text-gray-400">Body Text</label>
+                        <input type="color" id="text-color-picker" value="#D1D5DB" 
                                oninput="changeColor('text-color', this.value)" class="color-picker-input">
                     </div>
                     
                     <div class="flex items-center justify-between">
-                        <label for="secondary-bg-picker" class="text-xs text-gray-400">Card Background (कार्ड पृष्ठभूमि)</label>
-                        <input type="color" id="secondary-bg-picker" value="#1e1e1e" 
+                        <label for="secondary-bg-picker" class="text-xs text-gray-400">Card Background</label>
+                        <input type="color" id="secondary-bg-picker" value="#1F2937" 
                                oninput="changeColor('secondary-bg', this.value)" class="color-picker-input">
                     </div>
 
-                    <!-- Reset Button -->
-                    <button onclick="resetColors()" class="w-full py-2 text-sm font-bold rounded-lg text-white bg-gray-600 hover:bg-gray-500 transition mt-4">
-                        Reset Colors (रंग रीसेट करें)
+                    <!-- Reset to Default Button -->
+                    <button onclick="resetToDefault()" class="w-full py-2 text-sm font-bold rounded-lg text-white bg-gray-600 hover:bg-gray-500 transition mt-4 flex items-center justify-center">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4 mr-2"></i>
+                        Reset to Default
                     </button>
                 </div>
             </div>
@@ -284,7 +271,7 @@
     <script>
         // --- DATA STRUCTURE ---
         const chaptersData = [
-            { id: 'c0', title: 'Home (होम)', icon: 'Home', content: 'home' },
+            { id: 'c0', title: 'Home', icon: 'Home', content: 'home' },
             { id: 'c1', title: 'Chapter 1: Basic Introduction (मूल परिचय)', icon: 'BookOpen',
                 subTopics: ['Samjho freelancing ka structure', 'Legal basics', 'Mindset', 'What not to do'],
                 content: `
@@ -305,9 +292,9 @@
                             <li>Taxes khud handle karne padte hain, no paid leaves.</li>
                         </ul>
                     </div>
-                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Basics (मूल बातें)</h3>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Basics</h3>
                     <div class="space-y-4">
-                        <p><strong class="primary-accent-text">Samjho freelancing ka structure:</strong> Client aapko brief deta hai, aap quote dete ho, agree hone pe kaam کرتے ہو, deliver karte ho, payment lete ho.</p>
+                        <p><strong class="primary-accent-text">Samjho freelancing ka structure:</strong> Client aapko brief deta hai, aap quote dete ho, agree hone pe kaam karte ho, deliver karte ho, payment lete ho.</p>
                         <p><strong class="primary-accent-text">Legal basics:</strong> India mein, GST register karo agar annual income 20 lakh+ ho, bank account ready rakho for payments.</p>
                         <p><strong class="primary-accent-text">Mindset:</strong> Patience rakho, shuru mein rejections milenge, but consistent raho.</p>
                         <p><strong class="primary-accent-text">What not to do:</strong> Free mein kaam mat karo shuru se, warna value kam lagti hai. Overcommit mat karo, jaise ek hi time pe 5 projects mat lo.</p>
@@ -318,7 +305,7 @@
                 subTopics: ['Basic Learning', 'Tools Master Karo', 'Advanced Skills', 'Practice Projects', 'Certifications', 'What to do/not to do'],
                 content: `
                     <p>Aapko pehle apne animation skills strong karne hain. Aap 2D animation mein focus kar rahe ho, to tools jaise Adobe Animate, Toon Boom, Blender (free for 2D), ya Krita se shuru karo.</p>
-                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide (कदम-दर-कदम गाइड)</h3>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
                     <div class="space-y-4">
                         <p><strong class="primary-accent-text">Basic Learning:</strong> Free resources se shuru karo – YouTube channels jaise "The Animator's Survival Kit" tutorials, ya free courses on Coursera/Skillshare. Daily 1-2 hours practice karo.</p>
                         <p><strong class="primary-accent-text">Tools Master Karo:</strong> Adobe After Effects for marketing videos, Illustrator for character sheets. Free alternatives: Synfig Studio ya Pencil2D. Install karo aur tutorials dekho.</p>
@@ -333,7 +320,7 @@
                 subTopics: ['Content Decide Karo', 'Tools for Portfolio', 'Quality Ensure Karo', 'Update Regularly', 'Show Process', 'What to do/not to do'],
                 content: `
                     <p><strong>Portfolio aapka resume hai</strong> – bina iske koi client nahi milega. Jab real projects nahi hain, to fake ya personal projects se shuru karo.</p>
-                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide (कदम-दर-कदम गाइड)</h3>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
                     <div class="space-y-4">
                         <p><strong class="primary-accent-text">Content Decide Karo:</strong> 5-10 samples banao – 2-3 short videos, 3-4 character model sheets.</p>
                         <p><strong class="primary-accent-text">Tools for Portfolio:</strong> Free website banao on <strong class="text-yellow-400">Behance</strong>, ya WordPress free version. Upload high-res content, descriptions add karo.</p>
@@ -348,7 +335,7 @@
                 subTopics: ['Upwork', 'Fiverr', 'Contra', 'Twine/Truelancer', 'What to do/not to do'],
                 content: `
                     <p>Animation freelancers ke liye top platforms 2025 mein yeh hain: <strong class="primary-accent-text">Upwork, Fiverr, Contra, Twine, Truelancer</strong>. Yeh sab global hain aur animation gigs ke liye ache.</p>
-                    <h3 class="text-xl font-semibold mt-6 mb-3">Platform Selection Guide (प्लेटफॉर्म गाइड)</h3>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Platform Selection Guide</h3>
                     <div class="space-y-4">
                         <p><strong class="primary-accent-text">Upwork:</strong> Best for beginners, high-paying clients. Cons: Competition high, fees 10%.</p>
                         <p><strong class="primary-accent-text">Fiverr:</strong> Gig-based, easy start. Cons: Low prices shuru mein.</p>
@@ -362,7 +349,7 @@
                 subTopics: ['Sign Up', 'Profile Details', 'Portfolio Link', 'Kahan Banaye', 'Optimize', 'What to do/not to do'],
                 content: `
                     <p>Profiles aapka first impression hain – attractive banao taaki clients attract ho.</p>
-                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide (कदम-दर-कदम गाइड)</h3>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
                     <div class="space-y-4">
                         <p><strong class="primary-accent-text">Sign Up:</strong> Email, phone verify karo. Platforms jaise Upwork pe skills test lo (free).</p>
                         <p><strong class="primary-accent-text">Profile Details:</strong> Photo professional daalo, bio likho: "I'm a beginner 2D animator specializing in marketing videos and character sheets..."</p>
@@ -377,7 +364,7 @@
                 subTopics: ['Search Jobs', 'Pitch Karo', 'Networking', 'First Client', 'Follow Up', 'What to do/not to do'],
                 content: `
                     <p>Clients dhundhna shuru mein tough, but consistent raho.</p>
-                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide (कदम-दर-कदम गाइड)</h3>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
                     <div class="space-y-4">
                         <p><strong class="primary-accent-text">Search Jobs:</strong> Platforms pe search karo "2D animation needed" ya proposals submit karo.</p>
                         <p><strong class="primary-accent-text">Pitch Karo:</strong> Personalized message likho, portfolio link do. Example: "Hi, I can create a 30-sec animated ad in 3 days for $100..."</p>
@@ -392,7 +379,7 @@
                 subTopics: ['Rates Decide', 'Charge Kaise', 'Payments', 'Increase Karo', 'Taxes', 'What to do/not to do'],
                 content: `
                     <p>Beginner hone pe low start karo, but value samjho.</p>
-                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide (कदम-दर-कदम गाइड)</h3>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
                     <div class="space-y-4">
                         <p><strong class="primary-accent-text">Rates Decide:</strong> 2D short video (30 sec): Beginner $50-100. Model sheet: $20-50 per character. Hourly: $20-25.</p>
                         <p><strong class="primary-accent-text">Charge Kaise:</strong> Milestone-based, jaise 50% advance, 50% delivery pe.</p>
@@ -423,7 +410,7 @@
                 subTopics: ['Communication', 'Contracts', 'Delivery', 'Deadlines', 'Feedback', 'What to do/not to do'],
                 content: `
                     <p>Yeh success ka key hai – clear communication se repeat clients milte hain.</p>
-                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide (कदम-दर-कदम गाइड)</h3>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
                     <div class="space-y-4">
                         <p><strong class="primary-accent-text">Communication:</strong> Zoom/Slack use karo calls ke liye. Brief samjho, questions poocho.</p>
                         <p><strong class="primary-accent-text">Contracts:</strong> Free templates from platforms, include scope, deadlines, revisions, payment terms. Sign karwao.</p>
@@ -438,7 +425,7 @@
                 subTopics: ['Continuous Learning', 'Networking', 'Scale', 'Marketing', 'Goals Set', 'What to do/not to do'],
                 content: `
                     <p>Long-term mein expert bano.</p>
-                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide (कदम-दर-कदम गाइड)</h3>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Step-by-Step Guide</h3>
                     <div class="space-y-4">
                         <p><strong class="primary-accent-text">Continuous Learning:</strong> New trends sikho jaise AI in animation (jaise Adobe Firefly). Courses lo.</p>
                         <p><strong class="primary-accent-text">Networking:</strong> Join Discord/Reddit groups for animators, collaborate karo.</p>
@@ -454,7 +441,7 @@
                 content: `
                     <p>Yeh final chapter aapko common mistakes se bachayega aur aapki professional image banayega.</p>
                     <div class="mt-6 p-4 rounded-lg bg-green-900/50 border border-green-700">
-                        <h4 class="font-bold text-lg mb-2 text-green-300">Do's (क्या करें)</h4>
+                        <h4 class="font-bold text-lg mb-2 text-green-300">Do's</h4>
                         <ul class="list-disc list-inside ml-4 space-y-1 text-green-100">
                             <li>Consistent raho, daily kaam karo.</li>
                             <li>Feedback lo aur improve karo.</li>
@@ -464,7 +451,7 @@
                         </ul>
                     </div>
                     <div class="mt-4 p-4 rounded-lg bg-red-900/50 border border-red-700">
-                        <h4 class="font-bold text-lg mb-2 text-red-300">Don'ts (क्या न करें)</h4>
+                        <h4 class="font-bold text-lg mb-2 text-red-300">Don'ts</h4>
                         <ul class="list-disc list-inside ml-4 space-y-1 text-red-100">
                             <li>Free work mat karo except portfolio ke liye.</li>
                             <li>Deadlines miss mat karo, reputation kharab hoti hai.</li>
@@ -488,14 +475,15 @@
         const FONT_SIZE_KEY = 'freelancingRoadmapFontSize';
         const COLOR_STORAGE_KEY = 'freelancingRoadmapCustomColors';
 
-        // Default colors for reset functionality
+        // Default colors for reset functionality (NEW BLUE-PURPLE THEME)
         const DEFAULT_COLORS = {
-            'primary-accent': '#00BFFF',
-            'heading-color': '#FFFFFF',
-            'subheading-color': '#e0e0e0',
-            'text-color': '#c0c0c0',
-            'secondary-bg': '#1e1e1e'
+            'primary-accent': '#8B5CF6', 
+            'heading-color': '#EDE9FE',
+            'subheading-color': '#A78BFA',
+            'text-color': '#D1D5DB',
+            'secondary-bg': '#1F2937'
         };
+        const DEFAULT_FONT_SIZE = 16;
 
 
         // --- LOCAL STORAGE FUNCTIONS ---
@@ -567,13 +555,9 @@
             } catch (error) {
                 console.error("Error saving color:", error);
             }
-            // Update UI to ensure dynamic content elements re-render or pick up changes
-            // Since CSS variables are reactive, this is often not strictly needed, 
-            // but is safe if any JS logic depends on the color state.
-            // window.updateUI(); 
         };
 
-        window.resetColors = () => {
+        const resetColors = () => {
             window.applyColors(DEFAULT_COLORS);
             try {
                 // Remove the custom settings from local storage
@@ -588,8 +572,7 @@
         const loadFontSize = () => {
             try {
                 const savedSize = localStorage.getItem(FONT_SIZE_KEY);
-                const defaultSize = 16;
-                const size = savedSize ? parseInt(savedSize) : defaultSize;
+                const size = savedSize ? parseInt(savedSize) : DEFAULT_FONT_SIZE;
                 
                 // Set the current font size in the UI and apply it
                 const root = document.getElementById('content-root');
@@ -604,7 +587,7 @@
 
             } catch (error) {
                 console.error("Error loading font size from Local Storage:", error);
-                return 16;
+                return DEFAULT_FONT_SIZE;
             }
         };
 
@@ -618,6 +601,19 @@
             
             // Save the new size
             localStorage.setItem(FONT_SIZE_KEY, size);
+        };
+        
+        const resetFontSize = () => {
+            window.changeFontSize(DEFAULT_FONT_SIZE); 
+            // Save is handled inside changeFontSize
+        };
+
+        // --- FULL RESET FUNCTION ---
+        window.resetToDefault = () => {
+            resetColors();
+            resetFontSize();
+            // After reset, re-apply the full UI to refresh everything
+            window.updateUI();
         };
 
 
@@ -706,16 +702,15 @@
             
             return `
                 <div class="space-y-8">
-                    <!-- Headings will now use the custom heading color via CSS -->
                     <h2 class="text-4xl sm:text-5xl font-extrabold leading-tight">
                         Freelancing Roadmap: <span class="primary-accent-text">2D Animation & Design</span>
                     </h2>
                     <p class="text-xl text-gray-300">
-                        यह एक complete guide है, specially आपके लिए freelancing start करने के लिए in 2D short marketing animated videos और 2D cartoon characters model sheet creation में। हर chapter को detail में explain किया गया है।
+                        This is a complete roadmap for starting your freelancing career, focused on 2D animated marketing videos and character model sheets. Follow the chapters and track your progress.
                     </p>
                     
                     <div class="mt-8 p-6 rounded-xl tertiary-bg-color shadow-inner border border-gray-700">
-                        <p class="text-lg font-semibold mb-2 text-white">आपकी Overall Progress (कुल प्रगति)</p>
+                        <p class="text-lg font-semibold mb-2 text-white">Your Overall Progress</p>
                         <div class="w-full bg-[#3d3d3d] rounded-full h-3">
                             <div class="h-3 rounded-full primary-accent-bg transition-all duration-500" style="width: ${overallPercent}%;"></div>
                         </div>
@@ -757,14 +752,12 @@
 
             // Content Header with Progress Bar
             let html = `
-                <!-- Headings will now use the custom heading color via CSS -->
                 <h2 class="text-3xl sm:text-4xl font-extrabold mb-2">${chapter.title}</h2>
                 <div class="text-sm font-medium text-gray-400 mb-6">Progress: ${prog.completed} / ${prog.total} Sections Complete</div>
                 
                 <div class="w-full bg-[#3d3d3d] rounded-full h-2.5 mb-8">
                     <div class="h-2.5 rounded-full primary-accent-bg transition-all duration-500" style="width: ${prog.percent}%;"></div>
                 </div>
-                <!-- Prose styles ensure text within the content area respects the body's font size and color variables -->
                 <div class="prose max-w-none">
                     ${chapter.content}
                 </div>
@@ -796,11 +789,11 @@
             const prog = chapterProgress[chapter.id];
 
             let html = `
-                <h3 class="text-xl font-bold mb-4 border-b pb-2 border-gray-600 text-white">Chapter Progress (अध्याय प्रगति)</h3>
+                <h3 class="text-xl font-bold mb-4 border-b pb-2 border-gray-600 text-white">Chapter Progress</h3>
                 <div class="w-full bg-[#3d3d3d] rounded-full h-2.5 mb-4">
                     <div class="h-2.5 rounded-full primary-accent-bg transition-all duration-500" style="width: ${prog.percent}%;"></div>
                 </div>
-                <div class="text-sm font-medium text-gray-400 mb-6">${prog.completed} / ${prog.total} Sections Marked Read</div>
+                <div class="text-sm font-medium text-gray-400 mb-6">${prog.completed} / ${prog.total} Sections Marked Done</div>
 
                 <div class="space-y-2">
                     ${chapter.subTopics.map((topic, index) => {
@@ -882,9 +875,7 @@
             
             // Re-render Lucide icons for injected content
             if(window.createIcons) {
-                // Lucide icons were imported via script type="module" at the top of the head
-                // Re-rendering them here ensures they display correctly after innerHTML updates.
-                window.createIcons({ icons: { Menu, X, CheckCircle, Home, Send, DollarSign, Users, Target, BookOpen, ChevronRight, Zap, Palette } });
+                window.createIcons({ icons: { Menu, X, CheckCircle, Home, Send, DollarSign, Users, Target, BookOpen, ChevronRight, Zap, Palette, RotateCcw } });
             }
         };
 
@@ -904,7 +895,6 @@
         window.navigateTo = navigateTo; 
         window.toggleMenu = toggleMenu;
         window.changeColor = changeColor;
-        window.resetColors = resetColors;
         window.changeFontSize = changeFontSize; 
     </script>
 </body>
